@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Starting syslogd and pptpd"
+syslogd -n -O- & exec "pptpd" "--fg"

@@ -1,14 +1,19 @@
-FROM ubuntu:16.04
-MAINTAINER Przemek Szalko <przemek@mobtitude.com>
+FROM alpine:3.7
 
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -y pptpd iptables
+LABEL maintainer="Danil Ibragimov <difeids@gmail.com>" \
+      description="PPTP VPN Server"
 
-COPY ./etc/pptpd.conf /etc/pptpd.conf
-COPY ./etc/ppp/pptpd-options /etc/ppp/pptpd-options
+RUN apk add --no-cache iptables ppp pptpd && \
+    sed -i "/^debug/s/^/#/" /etc/pptpd.conf
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod 0700 /entrypoint.sh
+EXPOSE 1723
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["pptpd", "--fg"]
+ENV SUBNET 172.20.10.0/24
+ENV LOCAL_IP 172.20.10.1
+ENV REMOTE_IP 172.20.10.100-199
+
+COPY ./ppp /etc/ppp
+COPY ./bin /usr/local/bin
+
+ENTRYPOINT ["pptpd_init"]
+CMD ["pptpd_run"]
