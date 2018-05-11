@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -e
+
+# enable IP forwarding
+sysctl -w net.ipv4.ip_forward=1
+echo "IPv4 forwarding enabled"
+
+# configure firewall
+set -x
+iptables -t nat -A POSTROUTING -s ${SUBNET} ! -d ${SUBNET} -j MASQUERADE
+iptables -A FORWARD -s ${SUBNET} -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j TCPMSS --set-mss 1356
+iptables -A INPUT -i ppp0 -j ACCEPT
+iptables -A OUTPUT -o ppp0 -j ACCEPT
+iptables -A FORWARD -i ppp0 -j ACCEPT
+iptables -A FORWARD -o ppp0 -j ACCEPT
+set +x
+echo "The iptables configured"
+
+# configure pptp IP address ranges
+sed -i "s/^localip.*/localip ${LOCAL_IP}/" /etc/pptpd.conf
+sed -i "s/^remoteip.*/remoteip ${REMOTE_IP}/" /etc/pptpd.conf
+echo -e "Local ip: \t${LOCAL_IP}\nRemote ip: \t${REMOTE_IP}"
+
+# configure pptp user
+if [ x"${USER}" != "x" -a x"${PASS}" != "x" ]; then
+    if grep -q -E ^${USER} /etc/ppp/chap-secrets; then
+        echo "User ${USER} already exist"
+    else
+        echo -e "\n${USER} \t* \t${PASS} \t\t*" >> /etc/ppp/chap-secrets
+        echo -e "PPTP user: \t${USER}\nPPTP pass: \t${PASS}"
+    fi
+fi
+
+echo "Configuration:"
+cat /etc/ppp/options.pptp
+
+exec "$@"
