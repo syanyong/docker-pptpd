@@ -38,4 +38,5 @@ To authenticate use credentials provided in _chap-secrets_ file.
 ## Environment variables
 * USER, PASS - create USER with PASSword
 * SUBNET - interface ppp0 inet addr. Default: 172.20.10.0/24
-* LOCAL_IP, REMOTE_IP - pptpd local and remote IP address ranges. Default: local 172.20.10.1 and remote 172.20.10.100-199
+* LOCAL_IP - pptpd local IP address. Default: 172.20.10.1
+* REMOTE_IP - pptpd remote IP address ranges. Default: 172.20.10.100-199
