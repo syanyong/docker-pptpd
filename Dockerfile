@@ -1,7 +1,7 @@
 FROM alpine:3.7
 
 LABEL maintainer="Danil Ibragimov <difeids@gmail.com>" \
-      description="VPN (PPTP) server for Docker""
+      description="VPN (PPTP) server for Docker"
 
 RUN apk add --no-cache iptables ppp pptpd && \
     sed -i "/^debug/s/^/#/" /etc/pptpd.conf
