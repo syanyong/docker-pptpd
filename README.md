@@ -1,3 +1,6 @@
+[![](https://images.microbadger.com/badges/image/difeid/pptpd.svg)](https://microbadger.com/images/difeid/pptpd "Get your own image badge on microbadger.com")
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdifeid%2Fdocker-pptpd.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdifeid%2Fdocker-pptpd?ref=badge_shield)
+
 # VPN (PPTP) server for Docker
 
 This is a docker image with VPN (PPTP) server with _chap-secrets_ authentication.
@@ -17,7 +20,7 @@ username    *           password    *
 To start VPN server as a docker container run:
 
 ````
-docker run -d --restart unless-stopped --cap-add NET_ADMIN -p 1723:1723 -v pptpd:/etc/ppp/ --name pptpd difeid/pptpd
+docker run -d --cap-add NET_ADMIN -p 1723:1723 -v pptpd:/etc/ppp/ difeid/pptpd
 ````
 
 Edit your local _chap-secrets_ file, to add or modify VPN users whenever you need.
@@ -28,7 +31,7 @@ When modifying configuration, you need to restart container.
 
 ### Simple usage
 ````
-docker run -d --restart unless-stopped --cap-add NET_ADMIN -p 1723:1723 -e USER={your user} -e PASS={your pass} difeid/pptpd
+docker run -d --cap-add NET_ADMIN -p 1723:1723 -e USER={your user} -e PASS={your pass} difeid/pptpd
 ````
 
 ## Connecting to VPN service
