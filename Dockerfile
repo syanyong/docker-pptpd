@@ -1,7 +1,7 @@
 FROM alpine:3.7
 
 LABEL maintainer="Danil Ibragimov <difeids@gmail.com>" \
-      description="VPN (PPTP) server for Docker"
+      description="PPTP VPN Server"
 
 RUN apk add --no-cache iptables ppp pptpd && \
     sed -i "/^debug/s/^/#/" /etc/pptpd.conf
@@ -12,8 +12,8 @@ ENV SUBNET 172.20.10.0/24
 ENV LOCAL_IP 172.20.10.1
 ENV REMOTE_IP 172.20.10.100-199
 
-ENTRYPOINT ["pptpd_init"]
-CMD ["pptpd_run"]
-
 COPY ./ppp /etc/ppp
 COPY ./bin /usr/local/bin
+
+ENTRYPOINT ["pptpd_init"]
+CMD ["pptpd_run"]
