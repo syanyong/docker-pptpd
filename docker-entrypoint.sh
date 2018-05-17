@@ -39,4 +39,9 @@ echo -e "\n## PPTPD configuration ##"
 cat /etc/ppp/options.pptp
 echo -e "#########################\n"
 
-exec "$@"
+if [ "$1" = "pptpd_run" ]; then
+    echo "Starting syslogd and pptpd"
+    syslogd -n -O- & exec "pptpd" "--fg"
+else
+    exec "$@"
+fi

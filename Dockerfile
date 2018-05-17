@@ -13,7 +13,7 @@ ENV LOCAL_IP 172.20.10.1
 ENV REMOTE_IP 172.20.10.100-199
 
 COPY ./ppp /etc/ppp
-COPY ./bin /usr/local/bin
+COPY ./docker-entrypoint.sh /.
 
-ENTRYPOINT ["pptpd_init"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["pptpd_run"]
