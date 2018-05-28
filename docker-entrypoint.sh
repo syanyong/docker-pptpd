@@ -30,7 +30,7 @@ if [ x"${USER}" != "x" -a x"${PASS}" != "x" ]; then
     if grep -q -E ^${USER} /etc/ppp/chap-secrets; then
         echo "User ${USER} already exist"
     else
-        echo -e "\n${USER} \t* \t${PASS} \t\t*" >> /etc/ppp/chap-secrets
+        echo -e "${USER} \t* \t${PASS} \t\t*" >> /etc/ppp/chap-secrets
         echo -e "PPTP user: \t${USER}\nPPTP pass: \t${PASS}"
     fi
 fi
