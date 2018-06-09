@@ -8,9 +8,9 @@ RUN apk add --no-cache iptables ppp pptpd && \
 
 EXPOSE 1723
 
-ENV SUBNET 172.20.10.0/24
-ENV LOCAL_IP 172.20.10.1
-ENV REMOTE_IP 172.20.10.100-199
+ENV SUBNET 172.31.255.0/24
+ENV LOCAL_IP 172.31.255.1
+ENV REMOTE_IP 172.31.255.100-199
 
 COPY ./ppp /etc/ppp
 COPY ./docker-entrypoint.sh /.
