@@ -20,7 +20,7 @@ username    *           password    *
 To start VPN server as a docker container run:
 
 ````
-docker run -d --cap-add=NET_ADMIN --device=/dev/ppp -p 1723:1723 -v pptpd:/etc/ppp/ --name=pptpd difeid/pptpd
+docker run -d --cap-add=NET_ADMIN --device=/dev/ppp --net=host -v pptpd:/etc/ppp/ --name=pptpd difeid/pptpd
 ````
 
 Edit your local _chap-secrets_ file, to add or modify VPN users whenever you need.
@@ -33,7 +33,7 @@ If you have fails, please try run the docker container with --privileged
 
 ### Simple usage
 ````
-docker run -d --cap-add=NET_ADMIN --device=/dev/ppp -p 1723:1723 -e USER={your user} -e PASS={your pass} difeid/pptpd
+docker run -d --cap-add=NET_ADMIN --device=/dev/ppp --net=host -e USER={your user} -e PASS={your pass} difeid/pptpd
 ````
 
 ## Connecting to VPN service

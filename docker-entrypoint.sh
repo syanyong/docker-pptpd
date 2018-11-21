@@ -24,18 +24,6 @@ iptables -C INPUT -p gre -j ACCEPT || {
 iptables -C OUTPUT -p gre -j ACCEPT || {
     iptables -A OUTPUT -p gre -j ACCEPT
 }
-#iptables -C INPUT -i ppp+ -j ACCEPT || {
-#    iptables -A INPUT -i ppp+ -j ACCEPT
-#}
-#iptables -C OUTPUT -o ppp+ -j ACCEPT || {
-#    iptables -A OUTPUT -o ppp+ -j ACCEPT
-#}
-#iptables -C FORWARD -i ppp+ -j ACCEPT || {
-#    iptables -A FORWARD -i ppp+ -j ACCEPT
-#}
-#iptables -C FORWARD -o ppp+ -j ACCEPT || {
-#    iptables -A FORWARD -o ppp+ -j ACCEPT
-#}
 { set +x ;} 2> /dev/null
 
 # configure pptp IP address ranges
