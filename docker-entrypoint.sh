@@ -12,12 +12,24 @@ fi
 # configure firewall
 echo "Configuring iptables"
 set -x
-iptables -t nat -A POSTROUTING -s ${SUBNET} ! -d ${SUBNET} -j MASQUERADE
-iptables -A FORWARD -s ${SUBNET} -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j TCPMSS --set-mss 1356
-iptables -A INPUT -i ppp0 -j ACCEPT
-iptables -A OUTPUT -o ppp0 -j ACCEPT
-iptables -A FORWARD -i ppp0 -j ACCEPT
-iptables -A FORWARD -o ppp0 -j ACCEPT
+iptables -t nat -C POSTROUTING -s ${SUBNET} ! -d ${SUBNET} -j MASQUERADE || {
+    iptables -t nat -A POSTROUTING -s ${SUBNET} ! -d ${SUBNET} -j MASQUERADE
+}
+iptables -C FORWARD -s ${SUBNET} -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j TCPMSS --set-mss 1356 || {
+    iptables -A FORWARD -s ${SUBNET} -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j TCPMSS --set-mss 1356
+}
+#iptables -C INPUT -i ppp0 -j ACCEPT || {
+#    iptables -A INPUT -i ppp0 -j ACCEPT
+#}
+#iptables -C OUTPUT -o ppp0 -j ACCEPT || {
+#    iptables -A OUTPUT -o ppp0 -j ACCEPT
+#}
+#iptables -C FORWARD -i ppp0 -j ACCEPT || {
+#    iptables -A FORWARD -i ppp0 -j ACCEPT
+#}
+#iptables -C FORWARD -o ppp0 -j ACCEPT || {
+#    iptables -A FORWARD -o ppp0 -j ACCEPT
+#}
 { set +x ;} 2> /dev/null
 
 # configure pptp IP address ranges
