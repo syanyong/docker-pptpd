@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.11
 
 LABEL maintainer="Danil Ibragimov <difeids@gmail.com>" \
       description="VPN (PPTP) server for Docker"
