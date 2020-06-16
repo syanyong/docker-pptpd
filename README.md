@@ -3,7 +3,7 @@
 
 # VPN (PPTP) server for Docker
 
-This is a docker image with VPN (PPTP) server with _chap-secrets_ authentication.
+This is a Docker image with VPN (PPTP) server with _chap-secrets_ authentication.
 
 PPTP uses _/etc/ppp/chap-secrets_ file to authenticate VPN users.
 
@@ -17,7 +17,7 @@ username    *           password    *
 
 ## Starting VPN server
 ### Usage
-To start VPN server as a docker container run:
+To start VPN server as a Docker container run:
 
 ````
 docker run -d --cap-add=NET_ADMIN --device=/dev/ppp --net=host -v pptpd:/etc/ppp/ --name=pptpd difeid/pptpd
@@ -29,12 +29,19 @@ When adding new users to _chap-secrets_ file, you don't need to restart Docker c
 You can edit _options.pptp_ file for modify pptpd configuration.
 When modifying configuration, you need to restart container.
 
-If you have fails, please try run the docker container with --privileged
+If you have fails, please try run the Docker container with --privileged
 
 ### Simple usage
 ````
 docker run -d --cap-add=NET_ADMIN --device=/dev/ppp --net=host -e USER={your user} -e PASS={your pass} difeid/pptpd
 ````
+
+## Internet access
+To access from the container to the Internet you need to enable IP forwarding on host system. You can try to get Docker to do this by adding the following command line option
+````
+--sysctl net.ipv4.conf.all.forwarding=1
+````
+And don't forget to configure your firewall.
 
 ## Connecting to VPN service
 You can use any VPN (PPTP) client to connect to the service.
@@ -48,4 +55,5 @@ To authenticate use credentials provided in _chap-secrets_ file.
 
 ## Troubleshooting
 In case of permission denied inside container, you can try to start container with --privileged key.
+
 
