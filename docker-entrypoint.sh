@@ -29,7 +29,7 @@ iptables -C OUTPUT -p gre -j ACCEPT || {
 # configure pptp IP address ranges
 sed -i "s/^localip.*/localip ${LOCAL_IP}/" /etc/pptpd.conf
 sed -i "s/^remoteip.*/remoteip ${REMOTE_IP}/" /etc/pptpd.conf
-echo -e "\nLocal ip: \t${LOCAL_IP}\nRemote ip: \t${REMOTE_IP}"
+echo -e "\nLocal ip:  ${LOCAL_IP}\nRemote ip: ${REMOTE_IP}"
 
 # configure pptp user
 if [ x"${USER}" != "x" -a x"${PASS}" != "x" ]; then
@@ -37,7 +37,7 @@ if [ x"${USER}" != "x" -a x"${PASS}" != "x" ]; then
         echo "User ${USER} already exist"
     else
         echo -e "${USER} \t* \t${PASS} \t\t*" >> /etc/ppp/chap-secrets
-        echo -e "PPTP user: \t${USER}\nPPTP pass: \t${PASS}"
+        echo -e "PPTP user: ${USER}\nPPTP pass: ${PASS}"
     fi
 fi
 
@@ -47,7 +47,7 @@ echo -e "#########################\n"
 
 if [ "$1" = "pptpd_run" ]; then
     echo "Starting syslogd and pptpd"
-    syslogd -n -O- & exec "pptpd" "--fg"
+    syslogd -n -t -O - & exec "pptpd" "--fg"
 else
     exec "$@"
 fi
