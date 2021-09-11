@@ -1,0 +1,13 @@
+version: '3'
+services:
+  pptpd:
+    image: pptpd:latest
+    environment:
+      - USER=ubuntu
+      - PASS=ubuntu
+    devices:
+      - /dev/ppp:/dev/ppp
+    network_mode: "host"
+    privileged: true
+
+
